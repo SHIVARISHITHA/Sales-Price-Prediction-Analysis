@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Sales Prediction Analysis</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 95%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #004080;
+            margin-bottom: 20px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+        }
+        .chart {
+            padding: 10px;
+            background-color: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sales Prediction Analysis Dashboard</h1>
+        <div class="grid">
+            <div id="line-chart" class="chart"></div>
+            <div id="area-chart" class="chart"></div>
+            <div id="time-series-forecast" class="chart"></div>
+            <div id="bar-chart" class="chart"></div>
+            <div id="scatter-plot" class="chart"></div>
+            <div id="heatmap" class="chart"></div>
+            <div id="box-plot" class="chart"></div>
+            <div id="funnel-chart" class="chart"></div>
+            <div id="bubble-chart" class="chart"></div>
+            <div id="kpi-dashboard" class="chart"></div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data extracted from the CSV
+        const data = [
+            { TV: 230.1, Radio: 37.8, Newspaper: 69.2, Sales: 22.1 },
+            { TV: 44.5, Radio: 39.3, Newspaper: 45.1, Sales: 10.4 },
+            { TV: 17.2, Radio: 45.9, Newspaper: 69.3, Sales: 12.0 },
+            { TV: 151.5, Radio: 41.3, Newspaper: 58.5, Sales: 16.5 },
+            { TV: 180.8, Radio: 10.8, Newspaper: 58.4, Sales: 17.9 }
+            // Include more rows from your actual dataset for better analysis
+        ];
+
+        const TV = data.map(row => row.TV);
+        const Radio = data.map(row => row.Radio);
+        const Newspaper = data.map(row => row.Newspaper);
+        const Sales = data.map(row => row.Sales);
+
+        // 1. Line Chart
+        Plotly.newPlot('line-chart', [{
+            x: TV,
+            y: Sales,
+            type: 'scatter',
+            mode: 'lines+markers',
+            line: { color: 'blue' }
+        }], {
+            title: 'Line Chart: TV Budget vs Sales'
+        });
+
+        // 2. Area Chart
+        Plotly.newPlot('area-chart', [{
+            x: TV,
+            y: Sales,
+            fill: 'tozeroy',
+            type: 'scatter',
+            mode: 'lines',
+            line: { color: 'green' }
+        }], {
+            title: 'Area Chart: TV Budget vs Sales'
+        });
+
+        // 3. Time Series Forecast Plot (Simulated data)
+        const forecastX = [...TV, 250, 300, 350];
+        const forecastY = [...Sales, 18, 20, 22];
+        Plotly.newPlot('time-series-forecast', [{
+            x: forecastX,
+            y: forecastY,
+            mode: 'lines+markers',
+            type: 'scatter',
+            line: { color: 'purple', dash: 'dash' }
+        }], {
+            title: 'Time Series Forecast Plot'
+        });
+
+        // 4. Bar Chart
+        Plotly.newPlot('bar-chart', [{
+            x: ['TV', 'Radio', 'Newspaper'],
+            y: [
+                TV.reduce((a, b) => a + b, 0),
+                Radio.reduce((a, b) => a + b, 0),
+                Newspaper.reduce((a, b) => a + b, 0)
+            ],
+            type: 'bar',
+            marker: { color: 'orange' }
+        }], {
+            title: 'Bar Chart: Total Advertising Budget'
+        });
+
+        // 5. Scatter Plot
+        Plotly.newPlot('scatter-plot', [{
+            x: TV,
+            y: Sales,
+            mode: 'markers',
+            type: 'scatter',
+            marker: { size: 12, color: 'red' }
+        }], {
+            title: 'Scatter Plot: TV Budget vs Sales'
+        });
+
+        // 6. Heatmap
+        Plotly.newPlot('heatmap', [{
+            z: [TV, Radio, Newspaper, Sales],
+            type: 'heatmap',
+            colorscale: 'Viridis'
+        }], {
+            title: 'Heatmap: Advertising Budgets'
+        });
+
+        // 7. Box Plot
+        Plotly.newPlot('box-plot', [{
+            y: Sales,
+            type: 'box',
+            marker: { color: 'blue' }
+        }], {
+            title: 'Box Plot: Sales Distribution'
+        });
+
+        // 8. Funnel Chart
+        Plotly.newPlot('funnel-chart', [{
+            type: 'funnel',
+            y: ['Prospects', 'Leads', 'Opportunities', 'Customers'],
+            x: [200, 150, 100, 50],
+            marker: { color: 'coral' }
+        }], {
+            title: 'Funnel Chart: Sales Pipeline'
+        });
+
+        // 9. Bubble Chart
+        Plotly.newPlot('bubble-chart', [{
+            x: TV,
+            y: Sales,
+            mode: 'markers',
+            marker: {
+                size: Radio,
+                color: Newspaper,
+                showscale: true
+            }
+        }], {
+            title: 'Bubble Chart: Sales vs TV Budget'
+        });
+
+        // 10. KPI Dashboard
+        Plotly.newPlot('kpi-dashboard', [{
+            type: "indicator",
+            mode: "number+gauge+delta",
+            value: 22.1, // Most recent sales value
+            delta: { reference: 18 },
+            gauge: { axis: { range: [0, 25] } }
+        }], {
+            title: 'KPI: Latest Sales Value'
+        });
+        
+        
+
+    </script>
+</body>
+</html>
